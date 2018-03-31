@@ -20,11 +20,11 @@ except:
 
 # Send to influxdb
 
-dbname = "upsnew"
+dbname = os.environ['INFLUXDB_DB']
 user = ""
 password =""
-port = 8086
-host = "10.0.1.11"
+port = os.environ['INFLUXDB_PORT']
+host = os.environ['INFLUXDB_HOST']
 client = InfluxDBClient(host, port, user, password, dbname)
 
 client.create_database(dbname)
