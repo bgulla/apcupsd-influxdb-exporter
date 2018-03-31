@@ -20,7 +20,7 @@ except:
 
 # Send to influxdb
 
-dbname = os.environ['INFLUXDB_DB']
+dbname = os.environ['INFLUXDB_DATABASE']
 user = ""
 password =""
 port = os.environ['INFLUXDB_PORT']
