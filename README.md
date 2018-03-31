@@ -11,13 +11,13 @@ Building the image is straight forward:
 ## Running
 ```bash
 docker run --rm  -d --name="apcupsd" \
-  --privileged --restart=always \
-  -e "HOSTNAME=entertainmentcenter" \
-  -e "WATTS=600" \
-  -e "INFLUXDB_DATABASE=ups" \
-  -e "INFLUXDB_PORT=8086" \
-  -e "INFLUXDB_HOST=10.0.1.11" \
-  -t bgulla/apcupsd-influxdb-exporter
+    --privileged --restart=always \
+    -e "HOSTNAME=entertainmentcenter" \
+    -e "WATTS=600" \
+    -e "INFLUXDB_DATABASE=ups" \
+    -e "INFLUXDB_PORT=8086" \
+    -e "INFLUXDB_HOST=10.0.1.11" \
+    -t bgulla/apcupsd-influxdb-exporter
 ```
 Note: if your UPS does not include the NOMPOWER metric, you will need to include the WATTS environment variable in order to compute the live-power consumption 
 metric.
