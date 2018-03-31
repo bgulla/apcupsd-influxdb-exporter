@@ -1,6 +1,7 @@
 FROM resin/raspberry-pi-alpine-python
+MAINTAINER Brandon <hey@brandongulla.com>
 
-RUN apk add --no-cache apcupsd jq curl busybox supervisor
+RUN apk add --no-cache apcupsd jq curl supervisor
 COPY ./conf/requirements.txt /requirements.txt
 COPY ./conf/apcupsd.conf /
 COPY ./src/app.py /
