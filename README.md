@@ -11,7 +11,7 @@ Building the image is straight forward:
 ## Running
 ```bash
 docker run --rm  -d --name="apcupsd" \
-    --privileged --restart=always \
+    --privileged \
     -e "HOSTNAME=entertainmentcenter" \
     -e "WATTS=600" \
     -e "INFLUXDB_DATABASE=ups" \
