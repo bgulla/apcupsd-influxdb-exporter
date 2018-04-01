@@ -4,8 +4,9 @@ MAINTAINER Brandon <hey@brandongulla.com>
 RUN apk add --no-cache apcupsd jq curl supervisor
 COPY ./conf/requirements.txt /requirements.txt
 COPY ./conf/apcupsd.conf /
-COPY ./src/app.py /
 RUN pip install -r /requirements.txt
 COPY ./conf/supervisord.conf /supervisord.conf
+
+COPY ./src/app.py /
 
 CMD ["supervisord", "-n", "-c","/supervisord.conf"]

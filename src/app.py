@@ -43,8 +43,7 @@ while True:
                           'fields': {
                               'WATTS' : float(watts),
                               'LOADPCT' : float(ups['LOADPCT']),
-                              'NOMPOWER' : float(ups['NOMPOWER']),
-                              'BCHARGE' : float(ups['BCHARGE'])
+                              'NOMPOWER' : float(ups['NOMPOWER'])
                           },
                           'tags': {
                               'host': HOSTNAME
