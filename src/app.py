@@ -9,7 +9,7 @@ from apcaccess import status as apc
 # Try to pull the hostname
 HOSTNAME = platform.node()
 try:
-  HOSTNAME = os.environ['HOSTNAME']
+  HOSTNAME = os.getenv('HOSTNAME', 'meatwad')
 except:
   pass
 
@@ -20,16 +20,19 @@ except:
 
 # Send to influxdb
 
-dbname = os.environ['INFLUXDB_DATABASE']
+dbname = os.getenv('INFLUXDB_DATABASE', 'upsnew')
 user = ""
 password =""
-port = os.environ['INFLUXDB_PORT']
-host = os.environ['INFLUXDB_HOST']
+port = os.getenv('INFLUXDB_PORT', 8086)
+host = os.getenv('INFLUXDB_HOST', '10.0.1.11')
 client = InfluxDBClient(host, port, user, password, dbname)
 
 client.create_database(dbname)
 
 
+print "Hostname: ", HOSTNAME
+print "database name: ", dbname
+print "db host:", host
 #print ups
 
 while True:
@@ -43,6 +46,9 @@ while True:
                           'fields': {
                               'WATTS' : float(watts),
                               'LOADPCT' : float(ups['LOADPCT']),
+                              'BCHARGE' : float(ups['BCHARGE']),
+                              'TONBATT' : float(ups['TONBATT']),
+                              'TIMELEFT' : float(ups['TIMELEFT']),
                               'NOMPOWER' : float(ups['NOMPOWER'])
                           },
                           'tags': {
