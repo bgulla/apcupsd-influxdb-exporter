@@ -9,7 +9,7 @@ tool. Dockerfiles included for both intel and ARM (RaspberryPi or comparable) ch
 ## How to build
 Building the image is straight forward:
 * Git clone this repo
-* `docker build -t apcupsd-influxdb -f Dockerfile.arm .`
+* `docker build -t apcupsd-influxdb -f Dockerfile.arm . `
 
 ## Running
 ```bash
