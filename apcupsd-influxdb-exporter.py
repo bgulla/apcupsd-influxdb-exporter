@@ -16,6 +16,11 @@ client = InfluxDBClient(host, port, user, password, dbname)
 
 client.create_database(dbname)
 
+# Print envs
+print("INFLUXDB_DATABASE", dbname )
+print("INFLUXDB_USER: 
+
+
 while True:
     ups = apc.parse(apc.get(host=os.getenv('APCUPSD_HOST', 'localhost')), strip_units=True)
 
