@@ -17,8 +17,13 @@ client = InfluxDBClient(host, port, user, password, dbname)
 client.create_database(dbname)
 
 # Print envs
-print("INFLUXDB_DATABASE", dbname )
-print("INFLUXDB_USER: 
+print("INFLUXDB_DATABASE: ", dbname)
+print("INFLUXDB_USER: ", user)
+print("INFLUXDB_PASSWORD: ", password)
+print("INFLUXDB_PORT: ", port)
+print("INFLUXDB_HOST: ", host)
+print("INTERVAL: ", interval)
+print("APCUPSD_HOST, host=os.getenv('APCUPSD_HOST', 'localhost'))
 
 
 while True:
