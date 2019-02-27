@@ -1,0 +1,15 @@
+version: '3'
+services:
+  apcupsd-influxdb-exporter:
+    image: bgulla/apcupsd-influxdb-exporter
+    container_name: apcupsd-influxdb-exporter
+    restart: always
+    environment:
+      WATTS: 1500 # if your ups doesn't have NOMPOWER, set this to be the rated max power, if you do have NOMPOWER, don't set this variable
+      APCUPSD_HOST: localhost # host running apcupsd
+      INFLUXDB_HOST: localhost # host running influxdb
+      HOSTNAME: unraid # host you want to show up in influxdb, optional defaults to apcupsd-influxdb-exporter
+      INFLUXDB_DATABASE: apcupsd # db name for influxdb. optional, defaults to apcupsd
+      INFLUXDB_USER: # optional, defaults to empty
+      INFLUXDB_PASSWORD: # optional, defaults to empty
+      INFLUXDB_PORT: 8086 # optional, defaults to 8086
