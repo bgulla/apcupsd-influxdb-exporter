@@ -7,12 +7,12 @@ tool. Dockerfiles included for both intel and ARM (RaspberryPi or comparable) ch
 ## How to build
 Building the image is straight forward:
 * Git clone this repo
-* `docker build -t apcupsd-influxdb-exporter  .`
+* `docker build -t bgulla/apcupsd-influxdb-exporter  .`
 
 ## Environment Variables
 These are all the available environment variables, along with some example values, and a description.
 
-| Environment Varialbe | Example Value | Description |
+| Environment Variable | Example Value | Description |
 | -------------------- | ------------- | ----------- |
 | WATTS |  1500 | if your ups doesn't have NOMPOWER, set this to be the rated max power, if you do have  NOMPOWER, don't set this variable |
 | APCUPSD_HOST |  192.168.1.100 | host running apcupsd |
@@ -23,6 +23,7 @@ These are all the available environment variables, along with some example value
 | INFLUXDB_PASSWORD | pass | optional, defaults to empty |
 | INFLUXDB_PORT |  8086 | optional, defaults to 8086 |
 | VERBOSE | true | if anything but true docker logging will show no output
+| UPS_ALIAS | server_closet | an additional influxdb tag to the influxdb output |
 
 ## How to Use
 
@@ -54,3 +55,51 @@ services:
 ```
 
 If you want to debug the apcaccess output or the send to influxdb, set the environment variable "VERBOSE" to "true"
+
+## Kubernetes - 1 Pod with 2 containers
+
+```yml
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: ups-apcupsd-tcp
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: ups-monitor
+  template:
+    metadata:
+      labels:
+        app: ups-monitor
+    spec:
+      containers:
+      - image: bgulla/apcupsd-tcp
+        imagePullPolicy: Always
+        name: ups-apcupsd-tcp
+        ports:
+        - containerPort: 3551
+          name: 3551tcp02
+          protocol: TCP
+        resources: {}
+        securityContext:
+          capabilities: {}
+          privileged: true
+      - env:
+        - name: APCUPSD_HOST
+          value: localhost
+        - name: INFLUXDB_DATABASE
+          value: power
+        - name: INFLUXDB_HOST
+          value: influxdb-homelab.influxdb.svc.cluster.local # service that routes to influxdb (port 8086 default)
+        - name: UPS_ALIAS
+          value: addl_servers
+        - name: VERBOSE
+          value: "true"
+        image: bgulla/apcupsd-influxdb-exporter
+        imagePullPolicy: Always
+        name: apcupsd-influx-exporter
+      dnsPolicy: ClusterFirst
+      nodeName: node01		# Node that the UPS is connected to
+      restartPolicy: Always
+```

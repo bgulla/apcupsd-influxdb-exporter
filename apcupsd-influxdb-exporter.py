@@ -13,6 +13,7 @@ port = os.getenv('INFLUXDB_PORT', 8086)
 host = os.getenv('INFLUXDB_HOST', '10.0.1.9')
 interval = float(os.getenv('INTERVAL', 5))
 client = InfluxDBClient(host, port, user, password, dbname)
+ups_alias = os.getenv('UPS_ALIAS','none')
 
 client.create_database(dbname)
 
@@ -22,13 +23,13 @@ print("INFLUXDB_USER: ", user)
 print("INFLUXDB_PASSWORD: ", password)
 print("INFLUXDB_PORT: ", port)
 print("INFLUXDB_HOST: ", host)
+print("UPS_ALIAS", ups_alias)
 print("INTERVAL: ", interval)
-print("APCUPSD_HOST, host=os.getenv('APCUPSD_HOST', 'localhost'))
-
+print("APCUPSD_HOST", os.getenv('APCUPSD_HOST', 'localhost'))
+print("VERBOSE: ", os.getenv('VERBOSE', 'localhost'))
 
 while True:
     ups = apc.parse(apc.get(host=os.getenv('APCUPSD_HOST', 'localhost')), strip_units=True)
-
     watts = float(os.getenv('WATTS', ups.get('NOMPOWER', 0.0))) * 0.01 * float(ups.get('LOADPCT', 0.0))
     json_body = [
         {
@@ -49,6 +50,7 @@ while True:
             'tags': {
                 'host': os.getenv('HOSTNAME', ups.get('HOSTNAME', 'apcupsd-influxdb-exporter')),
                 'serial': ups.get('SERIALNO', None),
+                'ups_alias' : ups_alias,
             }
         }
     ]
