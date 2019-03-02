@@ -56,7 +56,7 @@ services:
 
 If you want to debug the apcaccess output or the send to influxdb, set the environment variable "VERBOSE" to "true"
 
-## Kubernetes - 1 Pod with 2 containers
+## Kubernetes 
 
 ```yml
 apiVersion: apps/v1beta2
