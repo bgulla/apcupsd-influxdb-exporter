@@ -27,6 +27,17 @@ These are all the available environment variables, along with some example value
 
 ## How to Use
 
+### Prereqs
+This docker image assumes that you already have an instance of apcupsd running. If you want to deploy one via docker, run the following:
+```bash
+docker run -ti --rm \
+    --name="apcupsd-tcp" \
+    -p 3551:3551 \
+    --privileged \
+    bgulla/apcupsd-tcp
+```
+
+
 ### Run docker container directly
 ```bash
 docker run --rm  -d --name="apcupsd-influxdb-exporter" \
